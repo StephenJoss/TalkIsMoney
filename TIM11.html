@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>TALK IS MONEY</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+/* Global Styles */
+body {
+    font-family: 'Press Start 2P', cursive;
+    background-color: #080830; /* Deep dark blue */
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #F0FFF0;
+    text-transform: uppercase;
+}
+
+.container {
+    width: 90%;
+    max-width: 800px;
+    padding: 30px;
+    background-color: rgba(0, 0, 0, 0.7);
+    border: 4px dashed #00FFFF; /* Cyan border */
+    border-radius: 10px;
+    box-shadow: 0 0 20px #00FFFF; /* Cyan glow */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Logo */
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    font-size: 2.5em;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    color: #FF00FF; /* Magenta logo text */
+    text-shadow: -2px 2px #000, -4px 4px #00FFFF; /* 80s shadow */
+    margin-bottom: 10px;
+}
+
+/* Job Title Management */
+#job-title-management {
+    margin-bottom: 40px; /* Increased bottom margin */
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 2px dotted #00FFFF;
+    border-radius: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#job-title-management h3 {
+    color: #00FFFF;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+}
+
+#job-title-input-area {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    justify-content: center;
+}
+
+#newJobTitle, #newHourlyRate {
+    padding: 8px;
+    border: 1px solid #00FFFF;
+    border-radius: 4px;
+    background-color: #000;
+    color: #00FFFF;
+    font-family: inherit;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+#addJobTitleBtn {
+    padding: 8px 15px;
+    border: 1px solid #00FFFF;
+    border-radius: 4px;
+    background-color: #00FFFF;
+    color: #000;
+    font-family: inherit;
+    font-size: 0.9em;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+#addJobTitleBtn:hover {
+    background-color: #00BFFF; /* Cyan hover */
+}
+
+#job-title-list {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+}
+
+#job-title-list li {
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 10px;
+    background-color: #000;
+    border: 1px dotted #00FFFF;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+.job-title-actions button {
+    background-color: #FF4081; /* Magenta delete */
+    color: #000;
+    border: 1px solid #FF4081;
+    border-radius: 4px;
+    padding: 5px 8px;
+    font-family: inherit;
+    font-size: 0.8em;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.job-title-actions button.edit {
+    background-color: #00FF00; /* Green edit */
+    border-color: #00FF00;
+}
+
+/* Boardroom */
+#boardroom {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 40px; /* Increased bottom margin */
+    position: relative; /* Make boardroom a positioning context */
+    margin-top: 40px; /* Added top margin */
+}
+
+#table-area {
+    position: relative;
+    width: 200px; /* Adjust width for the oval */
+    height: 100px; /* Adjust height for the oval */
+    background-color: #2c3e50; /* Dark, slightly metallic blue */
+    border-radius: 50%; /* Creates an oval if width and height are different */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    overflow: hidden; /* Clip the reflection */
+}
+
+/* Subtle Reflection for the Oval Table */
+#table-area::after {
+    content: "";
+    position: absolute;
+    top: 15%; /* Start of the reflection */
+    left: 15%;
+    width: 70%;
+    height: 30%;
+    background: rgba(255, 255, 255, 0.15); /* Subtle white reflection */
+    border-radius: 50%; /* Match the table's roundness */
+    transform: rotate(-15deg); /* Slight angle for realism */
+    pointer-events: none;
+}
+
+.chair-container {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.chair {
+    width: 16px;
+    height: 16px;
+    background-color: #00FFFF; /* Body color */
+    border: 1px solid #000;
+    border-radius: 50%; /* Make it circular for the body */
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.7em;
+    color: #000;
+    position: relative;
+    transform: translateX(-50%) translateY(-50%); /* Center relative to container */
+    z-index: 2;
+}
+
+.chair::before {
+    content: "";
+    position: absolute;
+    top: -8px; /* Position above the body */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 8px;
+    height: 8px;
+    background-color: #00FFFF; /* Head color */
+    border: 1px solid #000;
+    border-radius: 50%;
+}
+
+.job-title-display {
+    font-size: 0.7em;
+    color: #00FFFF;
+    text-align: center;
+    margin-top: 5px;
+    white-space: nowrap; /* Prevent text wrapping */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Show ellipsis if text is too long */
+}
+
+.job-title-dropdown {
+    position: absolute;
+    background-color: #000;
+    border: 1px solid #00FFFF;
+    border-radius: 4px;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.dropdown-option {
+    color: #00FFFF;
+    font-size: 0.8em;
+    padding: 3px 5px;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dropdown-option:hover {
+    background-color: #00BFFF;
+    color: #000;
+}
+
+/* Chair Positioning around the oval table - Closer Fit */
+.chair-container[data-seat="1"] { top: -15px; left: 50%; transform: translateX(-50%); } /* Top */
+.chair-container[data-seat="2"] { top: 10px; left: 25px; } /* Top Left */
+.chair-container[data-seat="3"] { top: 10px; right: 25px; } /* Top Right */
+.chair-container[data-seat="4"] { bottom: 10px; left: 25px; } /* Bottom Left */
+.chair-container[data-seat="5"] { bottom: 10px; right: 25px; } /* Bottom Right */
+.chair-container[data-seat="6"] { bottom: -15px; left: 50%; transform: translateX(-50%); } /* Bottom */
+.chair-container[data-seat="7"] { top: 35px; left: 5px; } /* Middle Left */
+.chair-container[data-seat="8"] { top: 35px; right: 5px; } /* Middle Right */
+.chair-container[data-seat="9"] { bottom: 35px; left: 5px; } /* Lower Left */
+.chair-container[data-seat="10"] { bottom: 35px; right: 5px; } /* Lower Right */
+	
+/* Controls Below Table */
+#controls {
+    margin-top: 40px; /* Increased top margin */
+    margin-bottom: 40px; /* Increased bottom margin */
+    justify-content: center;
+}
+
+#controls button {
+    padding: 10px 20px;
+    border: 2px solid #00FFFF;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 300;
+    color: #00FFFF;
+    background-color: #000;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 0 5px #00FFFF;
+}
+
+#controls button:hover {
+    background-color: #00FFFF;
+    color: #000;
+    box-shadow: 0 0 15px #00FFFF;
+}
+
+#playBtn {
+    border-color: #00FF00;
+    color: #00FF00;
+    box-shadow: 0 0 5px #00FF00;
+}
+
+#playBtn:hover {
+    background-color: #00FF00;
+    color: #000;
+    box-shadow: 0 0 15px #00FF00;
+}
+
+#pauseBtn {
+    border-color: #FF4081;
+    color: #FF4081;
+    box-shadow: 0 0 5px #FF4081;
+}
+
+#pauseBtn:hover {
+    background-color: #FF4081;
+    color: #000;
+    box-shadow: 0 0 15px #FF4081;
+}
+
+#newBtn {
+    border-color: #FFA500;
+    color: #FFA500;
+    box-shadow: 0 0 5px #FFA500;
+}
+
+#newBtn:hover {
+    background-color: #FFA500;
+    color: #000;
+    box-shadow: 0 0 15px #FFA500;
+}
+
+/* Cost Display */
+#cost-display {
+    text-align: center;
+    margin-top: 40px; /* Added top margin */
+    margin-bottom: 40px; /* Added bottom margin */
+    color: #00FFFF;
+    text-shadow: 2px 2px #000;
+    font-size: 1.1em;
+}
+
+#totalCost {
+    font-size: 2em;
+}
+
+/* Pixel Art Background (Example - you'll need actual images) */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('pixel_office_background_vga.png'); /* Replace with your image */
+    background-repeat: repeat;
+    opacity: 0.3;
+    z-index: -1;
+}
+</style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>TALK IS MONEY</h1>
+        </header>
+
+        <section id="job-title-management">
+            <h3>MANAGE JOB TITLES</h3>
+            <div id="job-title-input-area">
+                <input type="text" id="newJobTitle" placeholder="JOB TITLE">
+                <input type="number" id="newHourlyRate" placeholder="$/HR">
+                <button id="addJobTitleBtn">ADD TITLE</button>
+            </div>
+            <ul id="job-title-list">
+                </ul>
+        </section>
+
+        <section id="boardroom">
+            <div id="table-area">
+                </div>
+            <div class="chair-container" data-seat="1">
+                <div class="chair"></div>
+            </div>
+            <div class="chair-container" data-seat="2">
+                <div class="chair"></div>
+            </div>
+            <div class="chair-container" data-seat="3">
+                <div class="chair"></div>
+            </div>
+            <div class="chair-container" data-seat="4">
+                <div class="chair"></div>
+            </div>
+            <div class="chair-container" data-seat="5">
+                <div class="chair"></div>
+            </div>
+            <div class="chair-container" data-seat="6">
+                <div class="chair"></div>
+            </div>
+            <div class="chair-container" data-seat="7">
+                <div class="chair"></div>
+            </div>
+            <div class="chair-container" data-seat="8">
+                <div class="chair"></div>
+            </div>
+            <div class="chair-container" data-seat="9">
+                <div class="chair"></div>
+            </div>
+            <div class="chair-container" data-seat="10">
+                <div class="chair"></div>
+            </div>
+        </section>
+
+        <section id="controls">
+            <button id="playBtn">PLAY</button>
+            <button id="pauseBtn">PAUSE</button>
+            <button id="newBtn">NEW MEETING</button>
+        </section>
+
+        <section id="cost-display">
+            <h2>TOTAL COST: <span id="totalCost">$0.00</span></h2>
+        </section>
+    </div>
+
+    <script>
+        const playBtn = document.getElementById('playBtn');
+        const pauseBtn = document.getElementById('pauseBtn');
+        const newBtn = document.getElementById('newBtn');
+        const totalCostDisplay = document.getElementById('totalCost');
+        const tableArea = document.getElementById('table-area');
+        const jobTitleList = document.getElementById('job-title-list');
+        const newJobTitleInput = document.getElementById('newJobTitle');
+        const newHourlyRateInput = document.getElementById('newHourlyRate');
+        const addJobTitleBtn = document.getElementById('addJobTitleBtn');
+        const chairContainers = document.querySelectorAll('.chair-container');
+        let activeDropdown = null;
+
+        let timerInterval;
+        let meetingCost = 0;
+        let startTime = null;
+        let jobTitles = {};
+        let seatAssignments = {};
+        let selectedChairContainer = null;
+        let isTimerRunning = false;
+
+
+        // Job Title Management
+        function renderJobTitles() {
+            jobTitleList.innerHTML = '';
+            for (const title in jobTitles) {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `
+                    <span>${title} - $${jobTitles[title].toFixed(2)}</span>
+                    <div class="job-title-actions">
+                        <button class="edit" onclick="editJobTitle('${title}')">EDIT</button>
+                        <button onclick="deleteJobTitle('${title}')">DELETE</button>
+                    </div>
+                `;
+                jobTitleList.appendChild(listItem);
+            }
+            updateChairDropdowns();
+        }
+
+
+       function editJobTitle(title) {
+            let newRate = prompt(`ENTER NEW HOURLY RATE FOR ${title}:`, jobTitles[title]);
+            if (newRate !== null && !isNaN(newRate)) {
+                jobTitles[title] = parseFloat(newRate);
+                renderJobTitles();
+            }
+        }
+
+
+        function deleteJobTitle(title) {
+            if (confirm(`ARE YOU SURE YOU WANT TO DELETE ${title}?`)) {
+                delete jobTitles[title];
+                for (const seat in seatAssignments) {
+                    if (seatAssignments[seat] === title) {
+                        seatAssignments[seat] = null;
+                        const chairContainer = document.querySelector(`.chair-container[data-seat="${seat}"]`);
+                        if (chairContainer) {
+                            const displayElement = chairContainer.querySelector('.job-title-display');
+                            if (displayElement) displayElement.textContent = '';
+                        }
+                    }
+                }
+                renderJobTitles();
+            }
+        }
+
+
+
+        addJobTitleBtn.addEventListener('click', () => {
+            const title = newJobTitleInput.value.trim();
+            const rate = parseFloat(newHourlyRateInput.value);
+
+            if (title && !isNaN(rate) && rate > 0) {
+                jobTitles[title] = rate;
+                renderJobTitles();
+                newJobTitleInput.value = '';
+                newHourlyRateInput.value = '';
+            } else {
+                alert('PLEASE ENTER A VALID JOB TITLE AND HOURLY RATE.');
+            }
+        });
+
+        function updateChairDropdowns() {
+            chairContainers.forEach(container => {
+                const seatNumber = container.dataset.seat;
+                const displayElement = container.querySelector('.job-title-display');
+                if (displayElement) {
+                    displayElement.textContent = seatAssignments[seatNumber] ? seatAssignments[seatNumber].substring(0, 2) : '';
+                }
+            });
+        }
+
+       function showJobTitleDropdown(container) {
+            const seatNumber = container.dataset.seat;
+            const dropdown = document.createElement('div');
+            dropdown.classList.add('job-title-dropdown');
+
+            for (const title in jobTitles) {
+                const option = document.createElement('div');
+                option.classList.add('dropdown-option');
+                option.textContent = title;
+                option.addEventListener('click', () => {
+                    seatAssignments[seatNumber] = title;
+                    const displayElement = container.querySelector('.job-title-display');
+                    if (displayElement) {
+                        displayElement.textContent = title.substring(0, 2);
+                    }
+                    dropdown.remove();
+                });
+                dropdown.appendChild(option);
+            }
+
+            // Position the dropdown (accounting for scroll)
+            const chairRect = container.getBoundingClientRect();
+            const scrollY = window.scrollY || window.pageYOffset;
+            const scrollX = window.scrollX || window.pageXOffset;
+
+            dropdown.style.position = 'absolute';
+            dropdown.style.top = `${chairRect.top + scrollY - dropdown.offsetHeight - 5}px`;
+            dropdown.style.left = `${chairRect.left + scrollX + (chairRect.width / 2) - (dropdown.offsetWidth / 2)}px`;
+            dropdown.style.zIndex = '100'; // Ensure it's on top
+
+            document.body.appendChild(dropdown);
+
+            // Close dropdown if clicked outside
+            setTimeout(() => {
+                document.addEventListener('click', function closeDropdown(event) {
+                    if (!dropdown.contains(event.target) && event.target !== container.querySelector('.chair')) {
+                        dropdown.remove();
+                        document.removeEventListener('click', closeDropdown);
+                    }
+                });
+            }, 0);
+        }
+
+        // Seat Management
+        chairContainers.forEach(container => {
+            const chairElement = container.querySelector('.chair');
+            const displayElement = document.createElement('div');
+            displayElement.classList.add('job-title-display');
+            container.appendChild(displayElement);
+
+            chairElement.addEventListener('click', (event) => {
+                event.stopPropagation(); // Prevent click from propagating to document immediately
+                showJobTitleDropdown(container);
+            });
+        });
+
+
+        function getCurrentHourlyRate() {
+            let currentHourlyRate = 0;
+            for (const seat in seatAssignments) {
+                const title = seatAssignments[seat];
+                if (title && jobTitles[title]) {
+                    currentHourlyRate += jobTitles[title];
+                }
+            }
+            return currentHourlyRate;
+        }
+
+
+        // Timer Functionality
+        function startTimer() {
+            if (!startTime) {
+                startTime = Date.now();
+                meetingCost = 0;
+            }
+            if (!isTimerRunning) {
+                timerInterval = setInterval(() => {
+                    updateDisplayCost();
+                }, 100);
+                isTimerRunning = true;
+            }
+        }
+
+        function pauseTimer() {
+            clearInterval(timerInterval);
+            isTimerRunning = false;
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            isTimerRunning = false;
+            meetingCost = 0;
+            startTime = null;
+            updateDisplayCost();
+            chairContainers.forEach(container => {
+                const displayElement = container.querySelector('.job-title-display');
+                if (displayElement) displayElement.textContent = '';
+            });
+            selectedChairContainer = null;
+            seatAssignments = {};
+            activeDropdown = null;
+            renderJobTitles();
+        }
+
+        function updateDisplayCost() {
+            if (startTime && isTimerRunning) {
+                const now = Date.now();
+                const currentHourlyRate = getCurrentHourlyRate();
+                const costPerMillisecond = currentHourlyRate / (60 * 60 * 1000);
+                const costIncrement = costPerMillisecond * 100;
+                meetingCost += costIncrement;
+                totalCostDisplay.textContent = '$' + meetingCost.toFixed(2);
+            } else {
+                totalCostDisplay.textContent = '$' + meetingCost.toFixed(2);
+            }
+        }
+
+
+        playBtn.addEventListener('click', startTimer);
+        pauseBtn.addEventListener('click', pauseTimer);
+        newBtn.addEventListener('click', resetTimer);
+
+        // Initial Render
+        renderJobTitles();
+    </script>
+</body>
+</html>
